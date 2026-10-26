@@ -38,7 +38,7 @@ function App() {
   )
 
   return (
-    <div>
+    <div style={{ maxWidth: '700px', margin: '40px auto', padding: '0 16px', fontFamily: 'Arial, sans-serif' }}>
       <h1>Post Dashboard</h1>
 
       <FilterForm value={filter} onChange={setFilter} />
@@ -46,7 +46,7 @@ function App() {
       {state.loading && <p>Loading posts...</p>}
 
       {!state.loading && state.error && (
-        <p>Could not load posts: {state.error}</p>
+        <p style={{ color: 'crimson' }}>Could not load posts: {state.error}</p>
       )}
 
       {!state.loading && !state.error && filteredPosts.length === 0 && (
