@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import { fetchPosts } from './api/postsApi'
 import { postsReducer, initialState } from './reducer/postsReducer'
+import PostList from './components/PostList'
 
 function App() {
   const [state, dispatch] = useReducer(postsReducer, initialState)
@@ -34,7 +35,7 @@ function App() {
     <div>
       <h1>Post Dashboard</h1>
 
-      {state.loading ? <p>Loading posts...</p> : <p>{state.posts.length} posts loaded.</p>}
+      {state.loading ? <p>Loading posts...</p> : <PostList posts={state.posts} />}
     </div>
   )
 }
