@@ -1,10 +1,12 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { fetchPosts } from './api/postsApi'
 import { postsReducer, initialState } from './reducer/postsReducer'
+import FilterForm from './components/FilterForm'
 import PostList from './components/PostList'
 
 function App() {
   const [state, dispatch] = useReducer(postsReducer, initialState)
+  const [filter, setFilter] = useState('')
 
   useEffect(() => {
     let ignore = false
@@ -31,9 +33,15 @@ function App() {
     }
   }, [])
 
+  const filteredPosts = state.posts.filter((post) =>
+    post.title.toLowerCase().includes(filter.toLowerCase())
+  )
+
   return (
     <div>
       <h1>Post Dashboard</h1>
+
+      <FilterForm value={filter} onChange={setFilter} />
 
       {state.loading && <p>Loading posts...</p>}
 
@@ -41,12 +49,12 @@ function App() {
         <p>Could not load posts: {state.error}</p>
       )}
 
-      {!state.loading && !state.error && state.posts.length === 0 && (
+      {!state.loading && !state.error && filteredPosts.length === 0 && (
         <p>No posts found.</p>
       )}
 
-      {!state.loading && !state.error && state.posts.length > 0 && (
-        <PostList posts={state.posts} />
+      {!state.loading && !state.error && filteredPosts.length > 0 && (
+        <PostList posts={filteredPosts} />
       )}
     </div>
   )
